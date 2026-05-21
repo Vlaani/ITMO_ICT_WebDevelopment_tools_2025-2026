@@ -737,10 +737,25 @@
 </span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a>    <span class="n">main</span><span class="p">()</span>
 </span></code></pre></div>
 <h2 id="_2">Результаты</h2>
-<p>Так как задача CPU-bound, создание отдельных процессов позволило ускорить вычисления. async и threading - практически один и тот же подход, поэтому и время выполнения кода одинаковое.
-| | async | multiprocessing | threading |
-| ----- | ----- | ----- | ----- |
-| Время |  13.59 сек  | 4.64 сек | 13.57 сек |</p>
+<p>Так как задача CPU-bound, создание отдельных процессов позволило ускорить вычисления. async и threading - практически один и тот же подход, поэтому и время выполнения кода одинаковое.   </p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>async</th>
+<th>multiprocessing</th>
+<th>threading</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Время</td>
+<td>13.59 сек</td>
+<td>4.64 сек</td>
+<td>13.57 сек</td>
+</tr>
+</tbody>
+</table>
 <h2 id="2_1">Задание 2</h2>
 <p><strong>Напишите программу на Python для параллельного парсинга нескольких веб-страниц с сохранением данных в базу данных с использованием подходов threading, multiprocessing и async. Каждая программа должна парсить информацию с нескольких веб-сайтов, сохранять их в базу данных.</strong></p>
 <h3 id="async_parserpy">async_parser.py:</h3>
@@ -1057,10 +1072,25 @@
 </span><span id="__span-5-106"><a id="__codelineno-5-106" name="__codelineno-5-106" href="#__codelineno-5-106"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Время работы: </span><span class="si">{</span><span class="n">end</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </span></code></pre></div>
 <h2 id="_3">Результаты</h2>
-<p>Так как задача не CPU-bound (просто ждём по СУБД запишет данные), создание отдельных процессов совсем не помогло ускорить вычисления. Как можно увидеть ниже у всех типов программ ушло примерно одинаковое количество времени.
-| | async | multiprocessing | threading |
-| ----- | ----- | ----- | ----- |
-| Время |  5.39 сек  | 5.53 сек | 5.23 сек |</p>
+<p>Так как задача не CPU-bound (просто ждём по СУБД запишет данные), создание отдельных процессов совсем не помогло ускорить вычисления. Как можно увидеть ниже у всех типов программ ушло примерно одинаковое количество времени.   </p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>async</th>
+<th>multiprocessing</th>
+<th>threading</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Время</td>
+<td>5.39 сек</td>
+<td>5.53 сек</td>
+<td>5.23 сек</td>
+</tr>
+</tbody>
+</table>
 
 
 
