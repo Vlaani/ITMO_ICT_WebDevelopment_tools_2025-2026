@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Лабораторная 2 - Отчёты по лабораторным работам по курсу "Web Development Tools 2025-2026"</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../css/brands.min.css" rel="stylesheet">
+        <link href="../css/solid.min.css" rel="stylesheet">
+        <link href="../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">Отчёты по лабораторным работам по курсу "Web Development Tools 2025-2026"</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href=".." class="nav-link">Главная</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Лабораторные работы</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../lab1/" class="dropdown-item">Лабораторная 1</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Лабораторная 2</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../lab1/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" class="nav-link disabled">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#1" class="nav-link">Лабораторная работа 1</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#_1" class="nav-link">Тема</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#github" class="nav-link">Ссылки на GitHub</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#1_1" class="nav-link">Задание 1</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_2" class="nav-link">Результаты</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#2" class="nav-link">Задание 2</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_3" class="nav-link">Результаты</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="1">Лабораторная работа 1</h1>
+<h2 id="_1">Тема</h2>
+<p>Потоки. Процессы. Асинхронность.</p>
+<h2 id="github">Ссылки на GitHub</h2>
+<p>Репозиторий: <br />
+<a href="https://github.com/Vlaani/ITMO_ICT_WebDevelopment_tools_2025-2026/tree/lab2">https://github.com/Vlaani/ITMO_ICT_WebDevelopment_tools_2025-2026/tree/lab2</a></p>
+<p>Лабораторная работа: <br />
+<a href="https://github.com/Vlaani/ITMO_ICT_WebDevelopment_tools_2025-2026/commit/d63b02982bf8402c4937b94665f6f2081b86f37e">https://github.com/Vlaani/ITMO_ICT_WebDevelopment_tools_2025-2026/commit/d63b02982bf8402c4937b94665f6f2081b86f37e</a></p>
+<h2 id="1_1">Задание 1</h2>
+<p><strong>Напишите три различных программы на Python, использующие каждый из подходов: threading, multiprocessing и async. Каждая программа должна решать считать сумму всех чисел от 1 до 10000000000000. Разделите вычисления на несколько параллельных задач для ускорения выполнения.</strong></p>
+<h3 id="async_calculate_sumpy">async_calculate_sum.py:</h3>
+<pre><code class="language-python">import time
+import asyncio
+
+tasks_count : int = 16
+chunk_size : int = 1000000000 // tasks_count
+chunks = [i * chunk_size for i in range(tasks_count + 1)]
+chunks[-1] = 1000000001
+
+async def calculate_sum(chunk: int) -&gt; int:
+    return sum(range(chunks[chunk], chunks[chunk + 1], 1))
+
+async def main():
+    start = time.time()
+    tasks = [calculate_sum(i) for i in range(0, tasks_count)]
+    results = await asyncio.gather(*tasks)
+    total_sum = sum(results)
+    end = time.time()
+    print(f&quot;Сумма: {total_sum}&quot;)
+    print(f&quot;Время работы: {end - start}&quot;)
+
+if __name__ == &quot;__main__&quot;:
+    asyncio.run(main())
+</code></pre>
+<h3 id="multiprocessing_calcpy">multiprocessing_calc.py:</h3>
+<pre><code class="language-python">import time
+import multiprocessing
+
+tasks_count : int = 16
+chunk_size : int = 1000000000 // tasks_count
+chunks = [i * chunk_size for i in range(tasks_count + 1)]
+chunks[-1] = 1000000001
+
+def calculate_sum(chunk: int, queue) -&gt; None:
+    queue.put(sum(range(chunks[chunk], chunks[chunk + 1], 1)))
+
+def main():
+    start = time.time()
+    processes = []
+    queue = multiprocessing.Queue()
+    for i in range(tasks_count):
+        p = multiprocessing.Process(target=calculate_sum, args=(i, queue))
+        processes.append(p)
+        p.start()
+
+    results = []
+    for _ in range(tasks_count):
+        results.append(queue.get())
+
+    for proc in processes:
+        proc.join()
+
+    total_sum = sum(results)
+    end = time.time()
+
+    print(f&quot;Сумма: {total_sum}&quot;)
+    print(f&quot;Время работы: {end - start}&quot;)
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre>
+<h3 id="threading_calcpy">threading_calc.py:</h3>
+<pre><code class="language-python">import time
+import threading
+
+tasks_count : int = 16
+chunk_size : int = 1000000000 // tasks_count
+chunks = [i * chunk_size for i in range(tasks_count + 1)]
+chunks[-1] = 1000000001
+results = []
+
+def calculate_sum(chunk: int) -&gt; None:
+    results.append(sum(range(chunks[chunk], chunks[chunk + 1], 1)))
+
+def main():
+    start = time.time()
+    threads = []
+    for i in range(tasks_count):
+        t = threading.Thread(target=calculate_sum, args=(i,))
+        threads.append(t)
+        t.start()
+
+    for t in threads:
+        t.join()
+
+    total_sum = sum(results)
+    end = time.time()
+
+    print(f&quot;Сумма: {total_sum}&quot;)
+    print(f&quot;Время работы: {end - start}&quot;)
+
+if __name__ == &quot;__main__&quot;:
+    main()
+
+</code></pre>
+<h2 id="_2">Результаты</h2>
+<p>Так как задача CPU-bound, создание отдельных процессов позволило ускорить вычисления. async и threading - практически один и тот же подход, поэтому и время выполнения кода одинаковое.
+| | async | multiprocessing | threading |
+| :-: | :-: | :-: | :-: |
+| Время |  13.59 сек  | 4.64 сек | 13.57 сек |</p>
+<h2 id="2">Задание 2</h2>
+<p><strong>Напишите программу на Python для параллельного парсинга нескольких веб-страниц с сохранением данных в базу данных с использованием подходов threading, multiprocessing и async. Каждая программа должна парсить информацию с нескольких веб-сайтов, сохранять их в базу данных.</strong></p>
+<h3 id="async_parserpy">async_parser.py:</h3>
+<pre><code class="language-python">def prepare_response(text: str) -&gt; dict[str, Any]:
+    return json.loads(text[text.find('{'):-1])
+
+async def parse_and_save(page, url, background_tasks):
+    &quot;&quot;&quot;Открывает страницу и сразу отправляет её на фоновую обработку.&quot;&quot;&quot;
+    print(f&quot;[OPEN] {url}\n&quot;)
+    await page.goto(url, wait_until=&quot;load&quot;)
+
+async def tab_worker(page, queue, background_tasks):
+    &quot;&quot;&quot;Воркер для конкретной вкладки. Берет URL из очереди, пока они не кончатся.&quot;&quot;&quot;
+    while True:
+        try:
+            url = queue.get_nowait()
+        except asyncio.QueueEmpty:
+            break
+
+        try:
+            await parse_and_save(page, url, background_tasks)
+        except Exception as e:
+            print(f&quot;Ошибка при обработке {url}: {e}&quot;)
+        finally:
+            queue.task_done()
+
+start : float = 0
+
+async def main():
+    init_db()
+
+    queue = asyncio.Queue()
+    for url in URLS:
+        await queue.put(url)
+
+    background_tasks = set()
+
+    async with async_playwright() as p:
+        browser = await p.chromium.launch(
+            channel=&quot;chrome&quot;,
+            headless=False,
+            args=[
+                &quot;--disable-blink-features=AutomationControlled&quot;,
+            ],
+        )
+
+        context = await browser.new_context()
+
+        async def on_response(response):
+            if TARGET in response.url and &quot;productId&quot; in response.url:
+                data = await response.text()
+                try:
+                    print(f&quot;[URL] {response.url}\n[DATA] {data[128:]}...\n----------------------------------------------------------------\n&quot;)
+                    json_data = prepare_response(data)
+                    if json_data['ret'][0].startswith(&quot;SUCCESS&quot;):
+                        task = asyncio.create_task(save_to_db(json_data))
+                        background_tasks.add(task)
+                    else:
+                        print(f&quot;Unseccessful, [DATA] {data}&quot;)
+                except Exception as e:
+                    print(f&quot;Данные {data[data.find('{'):-1]} не удаётся распарсить, \nexception: {e}\n&quot;)
+
+        page = await context.new_page()
+        page.context.on(&quot;response&quot;, on_response)
+        await page.goto(URLS[0])
+        await page.wait_for_timeout(15000)
+
+        print(&quot;Пройди капчу вручную...&quot;)
+        input(&quot;После прохождения капчи нажми ENTER&quot;)
+
+        global start
+        start = time.time()
+        pages = [page]
+
+        for _ in range(TABS_COUNT - 1):
+            page = await context.new_page()
+            page.context.on(&quot;response&quot;, on_response)
+            pages.append(page)         
+
+        workers = [
+            asyncio.create_task(tab_worker(page, queue, background_tasks)) 
+            for page in pages
+        ]
+
+        await asyncio.gather(*workers)
+        print(&quot;Все URL были успешно открыты вкладками.&quot;)
+
+        if background_tasks:
+                print(f&quot;Ожидаем завершения оставшихся обработок: {len(background_tasks)} шт.&quot;)
+                await asyncio.gather(*background_tasks)
+
+        print(&quot;Вся обработка полностью завершена!&quot;)
+
+        await browser.close()
+
+
+if __name__ == &quot;__main__&quot;:
+    asyncio.run(main())
+    end = time.time()
+    print(f&quot;Время работы: {end - start}&quot;)
+
+</code></pre>
+<h3 id="multiprocessing_parserpy">multiprocessing_parser.py:</h3>
+<pre><code class="language-python">def prepare_response(text: str) -&gt; dict[str, Any]:
+    return json.loads(text[text.find('{'):-1])
+
+
+def save_in_process(json_data):
+    asyncio.run(save_to_db(json_data))
+
+
+async def parse_and_save(json_data, executor):
+    loop = asyncio.get_running_loop()
+
+    await loop.run_in_executor(
+        executor,
+        save_in_process,
+        json_data
+    )
+
+
+async def tab_worker(page, queue, executor):
+
+    while True:
+        try:
+            url = queue.get_nowait()
+        except asyncio.QueueEmpty:
+            break
+
+        try:
+            print(f&quot;[OPEN] {url}&quot;)
+            await page.goto(url, wait_until=&quot;load&quot;)
+
+        except Exception as e:
+            print(f&quot;Ошибка: {e}&quot;)
+
+        finally:
+            queue.task_done()
+
+start: float = 0
+
+async def main():
+
+    init_db()
+
+    queue = asyncio.Queue()
+
+    for url in URLS:
+        await queue.put(url)
+
+    executor = ProcessPoolExecutor(max_workers=4)
+
+    async with async_playwright() as p:
+
+        browser = await p.chromium.launch(
+            channel=&quot;chrome&quot;,
+            headless=False,
+        )
+
+        context = await browser.new_context()
+
+        async def on_response(response):
+            if TARGET in response.url and &quot;productId&quot; in response.url:
+                try:
+                    data = await response.text()
+                    json_data = prepare_response(data)
+
+                    if json_data['ret'][0].startswith(&quot;SUCCESS&quot;):
+                        asyncio.create_task(parse_and_save(json_data, executor))
+
+                except Exception as e:
+                    print(e)
+
+        page = await context.new_page()
+        page.context.on(&quot;response&quot;, on_response)
+        await page.goto(URLS[0])
+        await page.wait_for_timeout(15000)
+
+        print(&quot;Пройди капчу вручную...&quot;)
+        input(&quot;После прохождения капчи нажми ENTER&quot;)
+
+        global start
+        start = time.time()
+        pages = [page]
+
+        for _ in range(TABS_COUNT - 1):
+            page = await context.new_page()
+            page.on(&quot;response&quot;, on_response)
+            pages.append(page)
+
+        workers = [
+            asyncio.create_task(tab_worker(page, queue, executor))
+            for page in pages
+        ]
+
+        await asyncio.gather(*workers)
+
+        await browser.close()
+
+        executor.shutdown(wait=True)
+
+
+if __name__ == &quot;__main__&quot;:
+    multiprocessing.freeze_support()
+    asyncio.run(main())
+    end = time.time()
+    print(f&quot;Время работы: {end - start}&quot;)
+</code></pre>
+<h3 id="threading_parserpy">threading_parser.py:</h3>
+<pre><code class="language-python">def prepare_response(text: str) -&gt; dict[str, Any]:
+    return json.loads(text[text.find('{'):-1])
+
+
+def save_in_thread(json_data):
+    &quot;&quot;&quot;
+    threading-обработка
+    &quot;&quot;&quot;
+    asyncio.run(save_to_db(json_data))
+
+
+async def parse_and_save(json_data, executor):
+    loop = asyncio.get_running_loop()
+
+    await loop.run_in_executor(
+        executor,
+        save_in_thread,
+        json_data
+    )
+
+
+async def tab_worker(page, queue, executor):
+
+    while True:
+        try:
+            url = queue.get_nowait()
+        except asyncio.QueueEmpty:
+            break
+
+        try:
+            print(f&quot;[OPEN] {url}&quot;)
+            await page.goto(url, wait_until=&quot;load&quot;)
+
+        except Exception as e:
+            print(f&quot;Ошибка: {e}&quot;)
+
+        finally:
+            queue.task_done()
+
+start: float = 0
+
+async def main():
+
+    init_db()
+
+    queue = asyncio.Queue()
+
+    for url in URLS:
+        await queue.put(url)
+
+    executor = ThreadPoolExecutor(max_workers=4)
+
+    async with async_playwright() as p:
+
+        browser = await p.chromium.launch(
+            channel=&quot;chrome&quot;,
+            headless=False,
+        )
+
+        context = await browser.new_context()
+
+        async def on_response(response):
+            if TARGET in response.url and &quot;productId&quot; in response.url:
+                try:
+                    data = await response.text()
+                    json_data = prepare_response(data)
+
+                    if json_data['ret'][0].startswith(&quot;SUCCESS&quot;):
+                        asyncio.create_task(parse_and_save(json_data, executor))
+
+                except Exception as e:
+                    print(e)
+
+        page = await context.new_page()
+        page.context.on(&quot;response&quot;, on_response)
+        await page.goto(URLS[0])
+        await page.wait_for_timeout(15000)
+
+        print(&quot;Пройди капчу вручную...&quot;)
+        input(&quot;После прохождения капчи нажми ENTER&quot;)
+
+        global start
+        start = time.time()
+        pages = [page]
+
+        for _ in range(TABS_COUNT - 1):
+            page = await context.new_page()
+            page.on(&quot;response&quot;, on_response)
+            pages.append(page)
+
+        workers = [
+            asyncio.create_task(tab_worker(page, queue, executor))
+            for page in pages
+        ]
+
+        await asyncio.gather(*workers)
+
+        await browser.close()
+
+        executor.shutdown(wait=True)
+
+
+if __name__ == &quot;__main__&quot;:
+    asyncio.run(main())
+    end = time.time()
+    print(f&quot;Время работы: {end - start}&quot;)
+</code></pre>
+<h2 id="_3">Результаты</h2>
+<p>Так как задача не CPU-bound (просто ждём по СУБД запишет данные), создание отдельных процессов совсем не помогло ускорить вычисления. Как можно увидеть ниже у всех типов программ ушло примерно одинаковое количество времени.
+| | async | multiprocessing | threading |
+| :-: | :-: | :-: | :-: |
+| Время |  5.39 сек  | 5.53 сек | 5.23 сек |</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js"></script>
+        <script src="../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
