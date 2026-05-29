@@ -17,7 +17,9 @@ class VariantService:
         db_variant = Variant.model_validate(variant)
 
         if variant.attribute_ids is not None:
-            new_attributes = session.query(Attribute).filter(Attribute.id.in_(variant.attribute_ids)).all()
+            new_attributes = (
+                session.query(Attribute).filter(Attribute.id.in_(variant.attribute_ids)).all()
+            )
             db_variant.attributes = new_attributes
 
         session.add(db_variant)
@@ -45,7 +47,9 @@ class VariantService:
 
         attribute_ids = variant_data.get("attribute_ids")
         if attribute_ids is not None:
-            new_attributes = session.query(Attribute).filter(Attribute.id.in_(attribute_ids)).all()
+            new_attributes = (
+                session.query(Attribute).filter(Attribute.id.in_(attribute_ids)).all()
+            )
             db_variant.attributes = new_attributes
 
         session.add(db_variant)

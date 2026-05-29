@@ -3,9 +3,9 @@ from typing import TYPE_CHECKING, Optional, List
 
 from sqlmodel import Field, Relationship, SQLModel
 from enum import Enum
+from models.user import User
 
 if TYPE_CHECKING:
-    from models.user import User
     from models.variant import Variant
 
 
@@ -29,6 +29,6 @@ class Order(SQLModel, table=True):
     status: OrderStatus = Field(default=OrderStatus.created, index=True)
     total_price: int = Field(default=0, ge=0)
 
-    user: "User" = Relationship(back_populates="orders")
+    user: User = Relationship(back_populates="orders")
     variants: List["Variant"] = Relationship(back_populates="orders", link_model=OrderVariantLink)
     items: List[OrderVariantLink] = Relationship() 

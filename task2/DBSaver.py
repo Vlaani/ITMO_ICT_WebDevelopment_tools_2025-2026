@@ -1,13 +1,13 @@
 import sys
-import os
 from pathlib import Path
 
-root_dir = Path(os.getcwd()).parent / 'app'
-if str(root_dir) not in sys.path:
-    sys.path.insert(0, str(root_dir))
+current_dir = Path(__file__).resolve().parent
+sys.path.append(str(current_dir.parent))
+sys.path.append(str(current_dir.parent / 'app'))
 
 from typing import Any
 from sqlmodel import select
+from contextlib import contextmanager
 
 from models.product import Product
 from models.attribute import Attribute
@@ -15,8 +15,8 @@ from models.attribute_name import AttributeName
 from models.property_name import PropertyName
 from models.property import Property
 from models.variant import Variant
-from AutoDBDict import AutoDBDict
 from db.db import get_session
+from task2.AutoDBDict import AutoDBDict
 
 to_db = AutoDBDict()
 
@@ -44,7 +44,8 @@ async def save_to_db(data: dict[str, Any]):
     print('Попытка сохранить данные')
     id_to_att_prop = {}
 
-    with get_session() as session:
+    session_context = contextmanager(get_session)
+    with session_context() as session:
         if not 'subject' in data['data']['result']['GLOBAL_DATA']['globalData']:
             return
         product_db = to_db.add_to_db(Product(name=data['data']['result']['GLOBAL_DATA']['globalData']['subject']), session)

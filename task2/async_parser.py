@@ -1,9 +1,9 @@
 import sys
-import os
 from pathlib import Path
-root_dir = Path(os.getcwd()).parent / 'app'
-if str(root_dir) not in sys.path:
-    sys.path.insert(0, str(root_dir))
+
+current_dir = Path(__file__).resolve().parent
+sys.path.append(str(current_dir))
+sys.path.append(str(current_dir.parent))
 
 import time
 from typing import Any
@@ -11,7 +11,7 @@ import asyncio
 import json
 from playwright.async_api import async_playwright
 
-from db.db import init_db
+from app.db.db import init_db
 from DBSaver import save_to_db
 
 TARGET = "https://acs.aliexpress.com/h5/mtop.aliexpress.pdp.pc.query"
@@ -27,100 +27,167 @@ URLS = [
 
 TABS_COUNT = 2
 
-def prepare_response(text: str) -> dict[str, Any]:
-    return json.loads(text[text.find('{'):-1])
-
-async def parse_and_save(page, url, background_tasks):
-    """Открывает страницу и сразу отправляет её на фоновую обработку."""
-    print(f"[OPEN] {url}\n")
-    await page.goto(url, wait_until="load")
-
-async def tab_worker(page, queue, background_tasks):
-    """Воркер для конкретной вкладки. Берет URL из очереди, пока они не кончатся."""
-    while True:
-        try:
-            url = queue.get_nowait()
-        except asyncio.QueueEmpty:
-            break
+class AliexpressParser:
+    def __init__(self):
+        self.browser = None
+        self.context = None
+        self.pages = []
+        self.background_tasks = set()
+        self.playwright = None
+        self.is_initialized = False
+        self.queue = asyncio.Queue()
         
-        try:
-            await parse_and_save(page, url, background_tasks)
-        except Exception as e:
-            print(f"Ошибка при обработке {url}: {e}")
-        finally:
-            queue.task_done()
-
-start : float = 0
-
-async def main():
-    init_db()
-
-    queue = asyncio.Queue()
-    for url in URLS:
-        await queue.put(url)
+    def prepare_response(self, text: str) -> dict[str, Any]:
+        """Парсит ответ от сервера."""
+        return json.loads(text[text.find('{'):-1])
+    
+    async def on_response(self, response):
+        """Обработчик ответов от страницы."""
+        if TARGET in response.url and "productId" in response.url:
+            data = await response.text()
+            try:
+                print(f"[URL] {response.url}\n[DATA] {data[128:]}...\n----------------------------------------------------------------\n")
+                json_data = self.prepare_response(data)
+                if json_data['ret'][0].startswith("SUCCESS"):
+                    task = asyncio.create_task(save_to_db(json_data))
+                    self.background_tasks.add(task)
+                    task.add_done_callback(self.background_tasks.discard)
+                else:
+                    print(f"Unsuccessful, [DATA] {data}")
+            except Exception as e:
+                print(f"Данные {data[data.find('{'):-1]} не удаётся распарсить, \nexception: {e}\n")
+    
+    async def initialize(self):
+        """Инициализирует браузер, проходит капчу и создаёт вкладки."""
+        if self.is_initialized:
+            print("Парсер уже инициализирован")
+            return
         
-    background_tasks = set()
-
-    async with async_playwright() as p:
-        browser = await p.chromium.launch(
-            channel="chrome",
+        init_db()
+        
+        self.playwright = await async_playwright().start()
+        self.browser = await self.playwright.chromium.launch(
+            channel="chromium",
             headless=False,
             args=[
                 "--disable-blink-features=AutomationControlled",
+                "--no-sandbox",  # Важно для Docker!
+                "--disable-setuid-sandbox",  # Дополнительная безопасность для Docker
+                "--disable-dev-shm-usage",  # Для работы с ограниченной памятью
+                "--disable-gpu",  # В Docker без GPU
+                "--window-size=1280,720",
             ],
+            env={
+                "DISPLAY": ":99",  # Явно указываем виртуальный дисплей
+            },
         )
-
-        context = await browser.new_context()
-
-        async def on_response(response):
-            if TARGET in response.url and "productId" in response.url:
-                data = await response.text()
-                try:
-                    print(f"[URL] {response.url}\n[DATA] {data[128:]}...\n----------------------------------------------------------------\n")
-                    json_data = prepare_response(data)
-                    if json_data['ret'][0].startswith("SUCCESS"):
-                        task = asyncio.create_task(save_to_db(json_data))
-                        background_tasks.add(task)
-                    else:
-                        print(f"Unseccessful, [DATA] {data}")
-                except Exception as e:
-                    print(f"Данные {data[data.find('{'):-1]} не удаётся распарсить, \nexception: {e}\n")
-
-        page = await context.new_page()
-        page.context.on("response", on_response)
-        await page.goto(URLS[0])
-        await page.wait_for_timeout(15000)
+        
+        self.context = await self.browser.new_context()
+        
+        # Создаём первую страницу для прохождения капчи
+        first_page = await self.context.new_page()
         
         print("Пройди капчу вручную...")
-        input("После прохождения капчи нажми ENTER")
-
-        global start
-        start = time.time()
-        pages = [page]
+        async with first_page.expect_request(lambda req: "acs.aliexpress.com/h5/mtop.aliexpress.pdp.pc.query/1.0/_____tmd_____/validate" in req.url and req.method == "POST", timeout=0) as request_info:
+            await first_page.goto(URLS[0])
+        #await first_page.wait_for_timeout(20000)
+        print("Капча пройдена")
         
+        first_page.context.on("response", self.on_response)
+        # Сохраняем первую страницу
+        self.pages = [first_page]
+        
+        # Создаём дополнительные вкладки
         for _ in range(TABS_COUNT - 1):
-            page = await context.new_page()
-            page.context.on("response", on_response)
-            pages.append(page)         
-
-        workers = [
-            asyncio.create_task(tab_worker(page, queue, background_tasks)) 
-            for page in pages
-        ]
+            page = await self.context.new_page()
+            page.context.on("response", self.on_response)
+            self.pages.append(page)
         
-        await asyncio.gather(*workers)
-        print("Все URL были успешно открыты вкладками.")
+        self.is_initialized = True
+        print(f"Парсер инициализирован с {len(self.pages)} вкладками")
+    
+    async def parse_url(self, url: str) -> dict:
+        """
+        Открывает URL в одной из вкладок.
+        Возвращает словарь с результатом операции.
+        """
+        if not self.is_initialized:
+            return {"success": False, "error": "Парсер не инициализирован"}
         
-        if background_tasks:
-                print(f"Ожидаем завершения оставшихся обработок: {len(background_tasks)} шт.")
-                await asyncio.gather(*background_tasks)
+        page = self.pages[0]
+        
+        try:
+            print(f"[OPEN] {url}\n")
+            await page.goto(url, wait_until="load")
+            return {"success": True, "message": "Страница прочитана"}
+        except Exception as e:
+            return {"success": False, "url": url, "error": str(e)}
+    
+    async def parse_urls_batch(self, urls: list[str]) -> list[dict]:
+        """
+        Открывает несколько URL параллельно во всех вкладках.
+        """
+        if not self.is_initialized:
+            return [{"success": False, "error": "Парсер не инициализирован"}]
+        
+        queue = asyncio.Queue()
+        for url in urls:
+            await queue.put(url)
+        
+        async def tab_worker(page, worker_queue):
+            results = []
+            while True:
+                try:
+                    url = worker_queue.get_nowait()
+                except asyncio.QueueEmpty:
+                    break
                 
-        print("Вся обработка полностью завершена!")
-            
-        await browser.close()
+                try:
+                    await page.goto(url, wait_until="load")
+                    results.append({"success": True, "url": url})
+                except Exception as e:
+                    results.append({"success": False, "url": url, "error": str(e)})
+            return results
+        
+        workers = [tab_worker(page, queue) for page in self.pages]
+        all_results = await asyncio.gather(*workers)
+        
+        # Объединяем результаты
+        results = []
+        for worker_results in all_results:
+            results.extend(worker_results)
+        
+        return results
+    
+    async def wait_for_tasks(self):
+        """Ожидает завершения всех фоновых задач сохранения."""
+        if self.background_tasks:
+            print(f"Ожидаем завершения {len(self.background_tasks)} фоновых задач...")
+            await asyncio.gather(*self.background_tasks, return_exceptions=True)
+            print("Все фоновые задачи завершены")
+    
+    async def close(self):
+        """Закрывает браузер и освобождает ресурсы."""
+        if self.browser:
+            await self.wait_for_tasks()
+            await self.browser.close()
+        
+        if self.playwright:
+            await self.playwright.stop()
+        
+        self.is_initialized = False
+        print("Парсер остановлен")
 
 
+# Глобальный экземпляр парсера
+parser = AliexpressParser()
+
+async def main():
+    await parser.initialize()
+    await parser.parse_urls_batch(URLS)
+    
 if __name__ == "__main__":
-    asyncio.run(main())
+    start = time.time()
+    #asyncio.run(main())
     end = time.time()
     print(f"Время работы: {end - start}")

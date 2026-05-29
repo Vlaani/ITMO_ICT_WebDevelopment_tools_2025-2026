@@ -12,7 +12,7 @@ class UserService:
 
     def get_all(self, session):
         return session.exec(select(User)).all()
-    
+
     def get_by_id(self, user_id: int, session):
         return session.get(User, user_id)
 

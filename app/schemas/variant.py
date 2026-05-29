@@ -1,9 +1,7 @@
 from typing import Optional
-
 from sqlmodel import SQLModel
-
 from schemas.attribute import AttributeRead
-
+from schemas.product import ProductDefault
 
 class VariantDefault(SQLModel):
     price: int
@@ -25,4 +23,5 @@ class VariantUpdate(SQLModel):
 class VariantRead(VariantDefault):
     id: int
     product_id: int
+    product: ProductDefault
     attributes: list[AttributeRead] = []

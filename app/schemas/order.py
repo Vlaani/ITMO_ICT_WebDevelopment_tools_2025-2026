@@ -17,6 +17,7 @@ class OrderVariantItemRead(SQLModel):
     variant: VariantRead
     quantity: int
 
+
 class OrderRead(SQLModel):
     id: int
     created_at: datetime

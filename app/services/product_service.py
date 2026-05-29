@@ -17,7 +17,11 @@ class ProductService:
         db_product = Product.model_validate(product)
 
         if product.attribute_ids is not None:
-            new_attributes = session.query(Attribute).filter(Attribute.id.in_(product.attribute_ids)).all()
+            new_attributes = (
+                session.query(Attribute)
+                .filter(Attribute.id.in_(product.attribute_ids))
+                .all()
+            )
             db_product.attributes = new_attributes
 
         session.add(db_product)
@@ -45,7 +49,9 @@ class ProductService:
 
         attribute_ids = product_data.get("attribute_ids")
         if attribute_ids is not None:
-            new_attributes = session.query(Attribute).filter(Attribute.id.in_(attribute_ids)).all()
+            new_attributes = (
+                session.query(Attribute).filter(Attribute.id.in_(attribute_ids)).all()
+            )
             db_product.attributes = new_attributes
 
         session.add(db_product)

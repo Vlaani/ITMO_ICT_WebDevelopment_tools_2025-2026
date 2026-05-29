@@ -1,0 +1,9 @@
+fastapi[all]
+pathlib
+python-dotenv
+playwright
+psycopg2
+sqlmodel
+typing_extensions
+requests
+celery[redis]

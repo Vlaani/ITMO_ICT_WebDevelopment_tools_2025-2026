@@ -1,7 +1,5 @@
 from typing import Optional
-
 from sqlmodel import SQLModel
-
 from schemas.attribute import AttributeRead
 
 

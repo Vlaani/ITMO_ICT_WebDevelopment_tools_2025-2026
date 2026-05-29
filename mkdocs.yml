@@ -1,0 +1,46 @@
+site_name: Отчёты по лабораторным работам по курсу "Web Development Tools 2025-2026"
+
+theme:
+  name: material
+  features:
+    - content.code.copy
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - toc.integrate
+    - navigation.top
+    - search.highlight
+    - search.suggest
+    
+  palette:
+    - scheme: default
+      primary: amber
+      accent: deep orange
+      toggle:
+        icon: material/brightness-7 
+        name: Switch to dark mode
+
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - def_list
+  - admonition
+  - pymdownx.details
+  - tables
+
+
+nav:
+  - Главная: index.md
+  - Лабораторные работы:
+    - Лабораторная 1: lab1/index.md
+    - Лабораторная 2: lab2/index.md

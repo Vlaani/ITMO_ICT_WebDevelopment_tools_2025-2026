@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 db_url = os.getenv('DB_ADMIN')
-engine = create_engine(db_url, echo=True)
+engine = create_engine(db_url, echo=False)
 
 def init_db():
     SQLModel.metadata.create_all(engine)

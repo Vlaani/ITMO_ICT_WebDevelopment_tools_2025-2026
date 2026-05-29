@@ -1,14 +1,16 @@
-from fastapi import HTTPException, Depends
-from sqlmodel import select
 from typing import Annotated
 
-from models.user import User
-from schemas.user import UserCreate, UserLogin, UserRead, UserUpdate, UserReadFull
-from services.security_service import SecurityService
+from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
+from sqlmodel import select
+
 from db.db import get_session
+from models.user import User
+from schemas.user import UserCreate, UserLogin, UserRead, UserReadFull, UserUpdate
+from services.security_service import SecurityService
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/login")
+
 
 class AuthService:
     def __init__(self):
@@ -39,13 +41,13 @@ class AuthService:
         access_token = self.security_service.create_access_token(data=f"{user.id}")
         return access_token
 
-    def get_current_user(self, token: Annotated[str, Depends(oauth2_scheme)], session=Depends(get_session)):   
+    def get_current_user(self, token: Annotated[str, Depends(oauth2_scheme)], session=Depends(get_session)):
         return self.get_by_token(token, session)
 
     def get_by_token(self, token, session) -> UserReadFull:
         if not token:
             raise HTTPException(status_code=401, detail="Empty token")
-        
+
         data = self.security_service.decode_access_token(token)
         user_id = data
         if not user_id:
@@ -55,7 +57,7 @@ class AuthService:
         if not db_user:
             raise HTTPException(status_code=404, detail="User not found")
         return db_user
-    
+
     def update_user(self, db_user, user: UserUpdate, session):
         if not db_user:
             raise HTTPException(status_code=404, detail="User not found")

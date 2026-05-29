@@ -1,0 +1,9 @@
+fastapi[all]
+sqlmodel
+alembic
+python-dotenv
+psycopg2
+pwdlib[argon2]
+PyJWT
+typing_extensions
+requests

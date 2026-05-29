@@ -15,4 +15,5 @@ class Variant(SQLModel, table=True):
     product_id: int = Field(default=None, foreign_key="product.id")
     product: Product = Relationship(back_populates="variants")
     attributes: Optional[List[Attribute]] = Relationship(back_populates="variants", link_model=VariantAttributeLink)
+    attribute_links: List[VariantAttributeLink] = Relationship(back_populates="variant")
     orders: list["Order"] = Relationship(back_populates="variants", link_model=OrderVariantLink)
