@@ -36,6 +36,7 @@ class AliexpressParser:
         self.playwright = None
         self.is_initialized = False
         self.queue = asyncio.Queue()
+        self.workers = []
         
     def prepare_response(self, text: str) -> dict[str, Any]:
         """Парсит ответ от сервера."""
@@ -71,40 +72,53 @@ class AliexpressParser:
             headless=False,
             args=[
                 "--disable-blink-features=AutomationControlled",
-                "--no-sandbox",  # Важно для Docker!
-                "--disable-setuid-sandbox",  # Дополнительная безопасность для Docker
-                "--disable-dev-shm-usage",  # Для работы с ограниченной памятью
-                "--disable-gpu",  # В Docker без GPU
+                "--no-sandbox",
+                "--disable-setuid-sandbox",
+                "--disable-dev-shm-usage",
+                "--disable-gpu",
                 "--window-size=1280,720",
             ],
             env={
-                "DISPLAY": ":99",  # Явно указываем виртуальный дисплей
+                "DISPLAY": ":99",
             },
         )
         
         self.context = await self.browser.new_context()
         
-        # Создаём первую страницу для прохождения капчи
         first_page = await self.context.new_page()
         
         print("Пройди капчу вручную...")
         async with first_page.expect_request(lambda req: "acs.aliexpress.com/h5/mtop.aliexpress.pdp.pc.query/1.0/_____tmd_____/validate" in req.url and req.method == "POST", timeout=0) as request_info:
-            await first_page.goto(URLS[0])
+            await first_page.goto(URLS[0], timeout=0)
         #await first_page.wait_for_timeout(20000)
         print("Капча пройдена")
         
         first_page.context.on("response", self.on_response)
-        # Сохраняем первую страницу
+
         self.pages = [first_page]
         
-        # Создаём дополнительные вкладки
         for _ in range(TABS_COUNT - 1):
             page = await self.context.new_page()
             page.context.on("response", self.on_response)
             self.pages.append(page)
         
+        self.workers = [asyncio.create_task(self.tab_worker(page)) for page in self.pages]
+        
         self.is_initialized = True
         print(f"Парсер инициализирован с {len(self.pages)} вкладками")
+    
+    async def tab_worker(self, page):
+        while True:
+            url = await self.queue.get()
+            print(f"[OPEN] {url}")
+
+            try:
+                print(f"[OPEN] {url}")
+                await page.goto(url, wait_until="load")
+            except Exception as e:
+                print(f"[ERROR] {url}: {e}")
+            finally:
+                self.queue.task_done()
     
     async def parse_url(self, url: str) -> dict:
         """
@@ -113,13 +127,10 @@ class AliexpressParser:
         """
         if not self.is_initialized:
             return {"success": False, "error": "Парсер не инициализирован"}
-        
-        page = self.pages[0]
-        
+                
         try:
-            print(f"[OPEN] {url}\n")
-            await page.goto(url, wait_until="load")
-            return {"success": True, "message": "Страница прочитана"}
+            await self.queue.put(url)
+            return {"success": True, "message": "Страница добавлена"}
         except Exception as e:
             return {"success": False, "url": url, "error": str(e)}
     
@@ -130,29 +141,12 @@ class AliexpressParser:
         if not self.is_initialized:
             return [{"success": False, "error": "Парсер не инициализирован"}]
         
-        queue = asyncio.Queue()
+        #queue = asyncio.Queue()
         for url in urls:
-            await queue.put(url)
+            await self.queue.put(url)
         
-        async def tab_worker(page, worker_queue):
-            results = []
-            while True:
-                try:
-                    url = worker_queue.get_nowait()
-                except asyncio.QueueEmpty:
-                    break
-                
-                try:
-                    await page.goto(url, wait_until="load")
-                    results.append({"success": True, "url": url})
-                except Exception as e:
-                    results.append({"success": False, "url": url, "error": str(e)})
-            return results
+        all_results = await asyncio.gather(*self.workers)
         
-        workers = [tab_worker(page, queue) for page in self.pages]
-        all_results = await asyncio.gather(*workers)
-        
-        # Объединяем результаты
         results = []
         for worker_results in all_results:
             results.extend(worker_results)
